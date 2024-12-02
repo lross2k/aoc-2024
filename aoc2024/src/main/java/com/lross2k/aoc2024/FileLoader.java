@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author LuisR
+ * @author lross2k
  */
 public class FileLoader {
     private final String resourceName;
