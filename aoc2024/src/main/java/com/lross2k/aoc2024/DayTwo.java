@@ -68,40 +68,46 @@ public class DayTwo {
 
         return(safeReports);
     }
-    
+
     private boolean tryToDampen(String[] report, boolean tryAgain) {
-        return false;
+        System.out.println(Arrays.toString(report));
+        int validness = isValidReport(report);
+        boolean initialResult = validness < 0;
+        if (!initialResult && tryAgain)
+            initialResult = tryToDampen(removeElement(report, validness), false);
+        return initialResult;
     }
 
-    public void secondPart() {
-        // Iniatilize the lists for both sides
-        List<Integer> leftList = new ArrayList<>();
-        List<Integer> rightList = new ArrayList<>();
-        HashMap<Integer, Integer> similarities = new HashMap<>();
-
-        // Read contents of file and separate into two different lists
-        for (String line : lines) {
-            var string = line.split("   ");
-            leftList.add(Integer.valueOf(string[0]));
-            rightList.add(Integer.valueOf(string[1]));
+    private static String[] removeElement(String[] array, int indexToRemove) {
+        if (indexToRemove < 0 || indexToRemove >= array.length) {
+            throw new IllegalArgumentException("Invalid index");
         }
 
-        // Add up the distances
-        int result = 0;
-        int similarityIncrease;
-        int frequency;
-        for (int i = 0; i < leftList.size(); i++) {
-            int key = leftList.get(i);
-            if (similarities.containsKey(key)) {
-                similarityIncrease = key * similarities.get(key);
-            } else {
-                frequency = Collections.frequency(rightList, key);
-                similarityIncrease = key * frequency;
-                similarities.put(key, frequency);
+        String[] newArray = new String[array.length - 1];
+        for (int i = 0, j = 0; i < array.length; i++) {
+            if (i != indexToRemove) {
+                newArray[j++] = array[i];
             }
-            result += similarityIncrease;
+        }
+        return newArray;
+    }
+
+    public int secondPart() {
+        // Read contents of file and separate into two different lists
+        int safeReports = 0;
+        for (String line : lines) {
+            String[] levels = line.split(" ");
+            int reportValidness = isValidReport(levels);
+            if (reportValidness >= 0) {
+                System.out.println(Arrays.toString(levels));
+                boolean veredict = tryToDampen(removeElement(levels, reportValidness), false);
+                System.out.println(veredict);
+                if (veredict)
+                    safeReports++;
+            } else
+                safeReports++;
         }
 
-        System.out.println(result);
+        return(safeReports);
     } 
 }
