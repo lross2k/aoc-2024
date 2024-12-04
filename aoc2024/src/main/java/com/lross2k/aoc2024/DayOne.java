@@ -30,7 +30,7 @@ public class DayOne {
         }
     }
     
-    public void firstPart() {
+    public int firstPart() {
         // Iniatilize the lists for both sides
         List<Integer> leftList = new ArrayList<>();
         List<Integer> rightList = new ArrayList<>();
@@ -54,10 +54,10 @@ public class DayOne {
             result += diff < 0 ? diff * -1 : diff;
         }
 
-        System.out.println(result);
+        return(result);
     }
     
-    public void secondPart() {
+    public int secondPart() {
         // Iniatilize the lists for both sides
         List<Integer> leftList = new ArrayList<>();
         List<Integer> rightList = new ArrayList<>();
@@ -65,7 +65,7 @@ public class DayOne {
 
         // Read contents of file and separate into two different lists
         for (String line : lines) {
-            var string = line.split("   ");
+            String[] string = line.split("   ");
             leftList.add(Integer.valueOf(string[0]));
             rightList.add(Integer.valueOf(string[1]));
         }
@@ -86,6 +86,6 @@ public class DayOne {
             result += similarityIncrease;
         }
 
-        System.out.println(result);
+        return(result);
     }
 }

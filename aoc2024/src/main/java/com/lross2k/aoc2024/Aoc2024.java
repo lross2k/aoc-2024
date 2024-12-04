@@ -13,7 +13,8 @@ import java.io.IOException;
 public class Aoc2024 {
 
     public static void main(String[] args) {
-        DayOne day1 = new DayOne("puzzle-input-1.txt");
-        day1.secondPart();
+        //DayOne day1 = new DayOne("puzzle-input-1.txt");
+        DayTwo day2 = new DayTwo("puzzle-input-2.txt");
+        System.out.println(day2.firstPart());
     }
 }
