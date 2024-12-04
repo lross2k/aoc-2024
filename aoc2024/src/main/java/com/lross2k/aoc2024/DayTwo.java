@@ -29,50 +29,48 @@ public class DayTwo {
             System.err.println("Error loading file: " + e.getMessage());
         }
     }
+
+    private int isValidReport(String[] levels) {
+        int previousLevel = Integer.parseInt(levels[0]);
+        int secondLevel = Integer.parseInt(levels[1]);
+        boolean increasing = true;
+        int difference;
+
+        // Determine if it starts increasing or decreasing
+        if ((secondLevel - previousLevel) < 0 && (secondLevel - previousLevel) >= -3)
+            increasing = false;
+
+        for (int i = 1; i < levels.length; i++) {
+            String level = levels[i];
+            difference = Integer.parseInt(level) - previousLevel;
+
+            if ((difference == 0) || 
+                (difference > 3) || 
+                (difference > 0 && difference <= 3 && !increasing) || 
+                (difference < 0 && difference >= -3 && increasing) || 
+                (difference < -3)) {
+                return i;
+            }
+            previousLevel = Integer.parseInt(level);
+        }
+        return -1;
+    }
     
     public int firstPart() {
         // Read contents of file and separate into two different lists
         int safeReports = 0;
-        boolean badReport = false;
         for (String line : lines) {
             String[] levels = line.split(" ");
-            int previousLevel = Integer.parseInt(levels[0]);
-            int secondLevel = Integer.parseInt(levels[1]);
-            boolean increasing = true;
-            int difference;
-
-            // Determine if it starts increasing or decreasing
-            if ((secondLevel - previousLevel) < 0 && (secondLevel - previousLevel) >= -3)
-                increasing = false;
-
-            for (int i = 1; i < levels.length; i++) {
-                String level = levels[i];
-                difference = Integer.parseInt(level) - previousLevel;
-
-                    if (difference == 0) {
-                        badReport = true;
-                        break;
-                    } else if (difference > 3) {
-                        badReport = true;
-                        break;     
-                    } else if (difference > 0 && difference <= 3 && !increasing) {
-                        badReport = true;
-                        break;
-                    } else if (difference < 0 && difference >= -3 && increasing) {
-                        badReport = true;
-                        break;
-                    } else if (difference < -3) {
-                        badReport = true;
-                        break;
-                    }
-                previousLevel = Integer.parseInt(level);
-            }
-            if (!badReport)
+            int reportValidness = isValidReport(levels);
+            if (reportValidness < 0)
                 safeReports++;
-            badReport = false;
         }
 
         return(safeReports);
+    }
+    
+    private boolean tryToDampen(String[] report, boolean tryAgain) {
+        return false;
     }
 
     public void secondPart() {
